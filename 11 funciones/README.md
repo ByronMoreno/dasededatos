@@ -189,6 +189,3 @@ Las funciones en PostgreSQL son herramientas poderosas para manipular datos y re
 ---
 
 **Autor:** Profesor Byron Moreno  
-**Materia:** Bases de Datos II – PostgreSQL  
-**Instituto Tecnológico**  
-📅 *Año: 2025*

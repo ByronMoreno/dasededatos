@@ -190,6 +190,4 @@ Permiten reutilizar código, mejorar la organización y reducir errores en las c
 
 ---
 
-**Autor:** Curso de Base de Datos II  
-**Ejemplo:** Base de datos Northwind  
-**Versión:** PostgreSQL 16+
+**Autor:** Profesor Byron Moreno
