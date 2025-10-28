@@ -177,7 +177,7 @@ DECLARE
 BEGIN
     FOR rec IN cur LOOP
         UPDATE products SET stock = stock + 10 WHERE product_id = rec.product_id;
-        RAISE NOTICE 'Producto % actualizado. Nuevo stock: %', rec.product_id, rec.stock + 10;
+        RAISE NOTICE 'Producto % actualizado. Nuevo stock: %', rec.product_id, rec. stock + 10;
     END LOOP;
 END $$;
 ```

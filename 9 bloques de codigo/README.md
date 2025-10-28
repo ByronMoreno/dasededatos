@@ -57,7 +57,58 @@ DECLARE
     mensaje TEXT := 'Valor del contador: %';
 BEGIN
     contador := contador + 1;
-    RAISE NOTICE mensaje, contador;
+    RAISE NOTICE mensaje, contador;  -- ⚠️ ESTO DA ERROR
+END $$;
+```
+---
+# ✅ Soluciones Correctas: Bloques DO en PostgreSQL
+
+## Opción 1: 🎯 String directo
+```sql
+DO $$
+DECLARE
+    contador INTEGER := 0;
+BEGIN
+    contador := contador + 1;
+    RAISE NOTICE 'Valor del contador: %', contador;
+END $$;
+```
+
+## Opción 2: 🔧 Concatenar variables
+```sql
+DO $$
+DECLARE
+    contador INTEGER := 0;
+    mensaje TEXT;
+BEGIN
+    contador := contador + 1;
+    mensaje := 'Valor del contador: ' || contador;
+    RAISE NOTICE '%', mensaje;
+END $$;
+```
+
+## Opción 3: 🛠️ Usar FORMAT()
+```sql
+DO $$
+DECLARE
+    contador INTEGER := 0;
+    mensaje TEXT := 'Valor del contador: %';
+    mensaje_final TEXT;
+BEGIN
+    contador := contador + 1;
+    mensaje_final := FORMAT(mensaje, contador);
+    RAISE NOTICE '%', mensaje_final;
+END $$;
+```
+
+## Opción 4: ⚡ La más eficiente
+```sql
+DO $$
+DECLARE
+    contador INTEGER := 0;
+BEGIN
+    contador := contador + 1;
+    RAISE NOTICE 'Valor del contador: %', contador;
 END $$;
 ```
 
