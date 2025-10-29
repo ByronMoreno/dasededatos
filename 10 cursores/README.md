@@ -120,20 +120,21 @@ Esto combina la **simplicidad del FOR** con la **flexibilidad del cursor explíc
 
 ### 1️⃣ Calcular totales por cliente
 ```sql
+--Calcular totale por clientes
 DO $$
 DECLARE
-    cur CURSOR FOR
-        SELECT customer_id, SUM(total_amount) AS total FROM orders GROUP BY customer_id;
-    rec RECORD;
+	curs CURSOR FOR
+		select customer_id, sum(od.unit_price*od.quantity) as total
+		from orders o, order_details od
+		where od.order_id = o.order_id
+		group by customer_id;
 BEGIN
-    OPEN cur;
-    LOOP
-        FETCH cur INTO rec;
-        EXIT WHEN NOT FOUND;
-        RAISE NOTICE 'Cliente % → Total: %', rec.customer_id, rec.total;
-    END LOOP;
-    CLOSE cur;
-END $$;
+	FOR fila in curs Loop
+		raise notice 'Cliente: % --> Total: %',
+		fila.customer_id, fila.total;
+	end loop;
+END $$
+LANGUAGE plpgsql;
 ```
 
 ### 2️⃣ Registrar empleados activos (implícito)
