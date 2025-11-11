@@ -54,18 +54,19 @@ SELECT saludar();
 Ejemplo: Registrar una categoría nueva en la tabla `categories` de **Northwind**.
 
 ```sql
-CREATE OR REPLACE FUNCTION insertar_categoria(nombre_categoria TEXT, descripcion TEXT)
-RETURNS void AS $$
+CREATE OR REPLACE FUNCTION f_insertar_categoria(id integer, 
+nombre TEXT, descripcion TEXT)
+RETURNS void as $$
 BEGIN
-    INSERT INTO categories(categoryname, description)
-    VALUES (nombre_categoria, descripcion);
-
-    RAISE NOTICE 'Categoría "%" agregada correctamente.', nombre_categoria;
+	insert into categories(category_id, category_name, 
+	description)
+	values(id, nombre, descripcion);
 END;
 $$ LANGUAGE plpgsql;
 
+
 -- Ejecución
-SELECT insertar_categoria('Nuevos Productos', 'Productos agregados para promociones');
+select f_insertar_categoria(9,'PRUE1','Inserto desde funcion');
 ```
 
 📘 *Salida esperada:*  
@@ -183,7 +184,26 @@ $$ LANGUAGE plpgsql;
 
 ---
 
-## 🧾 6. Conclusión
+## 💡 6 Otras funciones(Retornar registros genéricos (SETOF RECORD)) 
+
+```sql
+CREATE OR REPLACE FUNCTION obtener_customers()
+RETURNS SETOF customers
+AS $$
+BEGIN
+    RETURN QUERY
+    SELECT * FROM customers;
+END;
+$$ LANGUAGE plpgsql;
+
+
+--Ejecutar la funcion
+select obtener_customers();
+```
+
+---
+
+## 🧾 7. Conclusión
 
 Las **funciones definidas por el usuario** en PostgreSQL son una poderosa herramienta para encapsular lógica de negocio directamente dentro del motor de base de datos.  
 Permiten reutilizar código, mejorar la organización y reducir errores en las consultas SQL.
