@@ -18,10 +18,48 @@ En PostgreSQL, cuando una función debe devolver filas completas de una tabla (p
 
 ---
 
-## 🧩 Ejemplo práctico con `%ROWTYPE`
+## 🧩 Ejemplo práctico con `%TABLE`
 
 ```sql
 CREATE OR REPLACE FUNCTION saludar3()
+RETURNS TABLE (
+    customer_id varchar,
+    company_name varchar,
+    contact_name varchar,
+    contact_title varchar,
+    address varchar,
+    city varchar,
+    region varchar,
+    postal_code varchar,
+    country varchar,
+    phone varchar,
+    fax varchar
+)
+AS $$
+BEGIN
+    RETURN QUERY
+    SELECT * FROM customers;
+END;
+$$ LANGUAGE plpgsql;
+
+```
+
+### 🧪 Prueba
+
+```sql
+SELECT * FROM saludar3();
+--O
+SELECT saludar3();
+```
+
+✅ Resultado: Devuelve todas las filas y columnas de la tabla `customers`, igual que un `SELECT * FROM customers;`, pero dentro de una función.
+
+---
+
+## 🧩 Ejemplo práctico con `%ROWTYPE`
+
+```sql
+CREATE OR REPLACE FUNCTION saludar4()
 RETURNS SETOF customers
 AS $$
 DECLARE
@@ -39,7 +77,7 @@ $$ LANGUAGE plpgsql;
 ### 🧪 Prueba
 
 ```sql
-SELECT saludar3();
+SELECT saludar4();
 ```
 
 ✅ Resultado: Devuelve todas las filas y columnas de la tabla `customers`, igual que un `SELECT * FROM customers;`, pero dentro de una función.
