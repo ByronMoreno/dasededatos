@@ -21,20 +21,25 @@ En PostgreSQL, cuando una función debe devolver filas completas de una tabla (p
 ## 🧩 Ejemplo práctico con `%ROWTYPE`
 
 ```sql
-CREATE OR REPLACE FUNCTION saludar()
-RETURNS SETOF customers%ROWTYPE
+CREATE OR REPLACE FUNCTION saludar3()
+RETURNS SETOF customers
 AS $$
+DECLARE
+    fila customers%ROWTYPE;
 BEGIN
-    RETURN QUERY
-    SELECT * FROM customers;
+    FOR fila IN SELECT * FROM customers LOOP
+        RETURN NEXT fila;
+    END LOOP;
+    RETURN;
 END;
 $$ LANGUAGE plpgsql;
+
 ```
 
 ### 🧪 Prueba
 
 ```sql
-SELECT * FROM saludar();
+SELECT saludar3();
 ```
 
 ✅ Resultado: Devuelve todas las filas y columnas de la tabla `customers`, igual que un `SELECT * FROM customers;`, pero dentro de una función.

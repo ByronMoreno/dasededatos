@@ -196,7 +196,11 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+```
 
+### 🧪 Prueba
+
+```sql
 --Ejecutar la funcion
 select obtener_customers();
 ```
